@@ -6,11 +6,11 @@ import org.apache.spark.sql.types.{IntegerType, StringType, StructField, StructT
 
 object DFans2 {
   def main(args: Array[String]): Unit = {
-    val sparkconf=new SparkConf()
-    sparkconf.set("spark.app.name","spark-program")
-    sparkconf.set("spark.master","local[*]")
+    val sparkconf = new SparkConf()
+    sparkconf.set("spark.app.name", "spark-program")
+    sparkconf.set("spark.master", "local[*]")
 
-    val spark=SparkSession.builder()
+    val spark = SparkSession.builder()
       .config(sparkconf)
       .getOrCreate()
 
@@ -25,11 +25,10 @@ object DFans2 {
     df.select(
       col("transaction_id"),
       col("amount"),
-      when(col("amount")>500 && col("amount")<=1000,"Medium")
-      .when(col("amount")>1000,"High")
+      when(col("amount") > 500 && col("amount") <= 1000, "Medium")
+        .when(col("amount") > 1000, "High")
         .otherwise("Low").alias("Value")
 
     ).show()
   }
-
 }

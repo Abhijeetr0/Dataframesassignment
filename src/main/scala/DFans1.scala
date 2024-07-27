@@ -7,19 +7,19 @@ import org.apache.spark.sql.types.{IntegerType, StringType, StructField, StructT
 object DFans1 {
   def main(args: Array[String]): Unit = {
     val sparkconf=new SparkConf()
-            sparkconf.set("spark.app.name","spark-program")
-           sparkconf.set("spark.master","local[*]")
+    sparkconf.set("spark.app.name","spark-program")
+    sparkconf.set("spark.master","local[*]")
 
-         val spark=SparkSession.builder()
-           .config(sparkconf)
-           .getOrCreate()
+    val spark=SparkSession.builder()
+      .config(sparkconf)
+      .getOrCreate()
 
     val employees = List(
       (1, "John", 28),
       (2, "Jane", 35),
       (3, "Doe", 22)
     )
-      val df = spark.createDataFrame(employees).toDF("id", "name", "age")
+    val df = spark.createDataFrame(employees).toDF("id", "name", "age")
     df.show(false)
 
     df.select(
@@ -31,9 +31,6 @@ object DFans1 {
         .alias("IsAdult")
 
     ).show()
-
-
-
 
 
   }
