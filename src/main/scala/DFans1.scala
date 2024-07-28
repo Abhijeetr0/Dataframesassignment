@@ -13,21 +13,20 @@ object DFans1 {
     val spark=SparkSession.builder()
       .config(sparkconf)
       .getOrCreate()
+    import spark.implicits._
 
     val employees = List(
       (1, "John", 28),
       (2, "Jane", 35),
       (3, "Doe", 22)
-    )
-    val df = spark.createDataFrame(employees).toDF("id", "name", "age")
-    df.show(false)
+    ).toDF("id", "name", "age")
 
-    df.select(
+    employees.select(
       col("id"),
       col("name"),
       col("age"),
-      when(col("age")>=18,"Adult")
-        .otherwise("Not adult")
+      when(col("age")>=18,"True")
+        .otherwise("False")
         .alias("IsAdult")
 
     ).show()

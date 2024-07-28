@@ -4,8 +4,9 @@ import org.apache.spark.sql.{SaveMode, SparkSession}
 import org.apache.spark.sql.types.{IntegerType, StringType, StructField, StructType}
 
 
-object DFans2 {
-  def main(args: Array[String]): Unit = {
+object DFans5 {
+  def main(args: Array[String]): Unit ={
+
     val sparkconf = new SparkConf()
     sparkconf.set("spark.app.name", "spark-program")
     sparkconf.set("spark.master", "local[*]")
@@ -16,20 +17,18 @@ object DFans2 {
 
     import spark.implicits._
 
-    val transactions = List(
-      (1, 1000),
-      (2, 200),
-      (3, 5000)
-    ).toDF("transaction_id", "amount")
+    val events = List(
+      (1, "2024-07-27"),
+      (2, "2024-12-25"),
+      (3, "2025-01-01")
+    ).toDF("event_id", "date")
 
-
-    transactions.select(
-      col("transaction_id"),
-      col("amount"),
-      when(col("amount") > 500 && col("amount") <= 1000, "Medium")
-        .when(col("amount") > 1000, "High")
-        .otherwise("Low").alias("Value")
-
+    events.select(
+      col("event_id"),
+      col("date"),
+      when(col("date")==="2024-12-25" || col("date")==="2025-01-01","True" )
+        .otherwise("False").alias("Isholiday")
     ).show()
   }
+
 }

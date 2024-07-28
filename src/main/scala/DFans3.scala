@@ -3,9 +3,8 @@ import org.apache.spark.sql.functions.{col, when}
 import org.apache.spark.sql.{SaveMode, SparkSession}
 import org.apache.spark.sql.types.{IntegerType, StringType, StructField, StructType}
 
-
-object DFans2 {
-  def main(args: Array[String]): Unit = {
+object DFans3 {
+  def main(args: Array[String]): Unit ={
     val sparkconf = new SparkConf()
     sparkconf.set("spark.app.name", "spark-program")
     sparkconf.set("spark.master", "local[*]")
@@ -16,20 +15,18 @@ object DFans2 {
 
     import spark.implicits._
 
-    val transactions = List(
-      (1, 1000),
-      (2, 200),
-      (3, 5000)
-    ).toDF("transaction_id", "amount")
+    val grades = List(
+      (1, 85),
+      (2, 42),
+      (3, 73)
+    ).toDF("student_id", "score")
 
-
-    transactions.select(
-      col("transaction_id"),
-      col("amount"),
-      when(col("amount") > 500 && col("amount") <= 1000, "Medium")
-        .when(col("amount") > 1000, "High")
-        .otherwise("Low").alias("Value")
-
+    grades.select(
+      col("student_id"),
+      col("score"),
+      when(col("score")>=50,"Pass")
+        .otherwise("Fail").alias("Grade")
     ).show()
   }
+
 }
